@@ -53,11 +53,11 @@ export default function ArticleEditor() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 sm:gap-3">
-          <button onClick={() => navigate(-1)} className="p-1.5 sm:p-2 rounded-xl hover:bg-white transition-colors">
-            <ArrowRight size={18} className="text-navy-400" />
+          <button onClick={() => navigate(-1)} className="p-1.5 sm:p-2 rounded-xl hover:bg-navy-50 transition-colors">
+            <ArrowRight size={18} className="text-navy-300" />
           </button>
           <div>
-            <h1 className="text-lg sm:text-xl font-extrabold text-navy-900">
+            <h1 className="text-lg sm:text-xl font-extrabold text-white">
               {isEditing ? 'تعديل المقال' : 'مقال جديد'}
             </h1>
             <p className="text-[10px] sm:text-xs text-navy-300">اكتب محتواك وانشره</p>
@@ -66,7 +66,7 @@ export default function ArticleEditor() {
         <button
           onClick={handleSave}
           disabled={saving || !title.trim()}
-          className="flex items-center gap-1.5 px-4 py-2 bg-navy-500 text-white rounded-full text-xs sm:text-sm font-semibold hover:bg-navy-600 transition-colors disabled:opacity-50"
+          className="flex items-center gap-1.5 px-4 py-2 accent-gradient text-white rounded-xl text-xs sm:text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-40"
         >
           <Save size={14} />
           {saving ? 'جارٍ...' : 'حفظ'}
@@ -79,7 +79,7 @@ export default function ArticleEditor() {
         placeholder="عنوان المقال..."
         value={title}
         onChange={e => setTitle(e.target.value)}
-        className="w-full text-lg sm:text-2xl font-bold bg-white rounded-xl sm:rounded-2xl border border-navy-50/30 px-4 sm:px-6 py-3 sm:py-4 focus:outline-none focus:ring-2 focus:ring-navy-100 placeholder-navy-200 text-navy-900"
+        className="w-full text-lg sm:text-2xl font-bold glass-card rounded-xl sm:rounded-2xl px-4 sm:px-6 py-3 sm:py-4 text-white placeholder-navy-200 focus:outline-none focus:ring-2 focus:ring-navy-500/30"
       />
 
       {/* Meta */}
@@ -87,20 +87,20 @@ export default function ArticleEditor() {
         <select
           value={category}
           onChange={e => setCategory(e.target.value)}
-          className="bg-white rounded-xl border border-navy-50/30 px-3 py-2 text-xs sm:text-sm text-navy-700 focus:outline-none focus:ring-2 focus:ring-navy-100"
+          className="glass-card rounded-xl px-3 py-2 text-xs sm:text-sm text-navy-300 focus:outline-none focus:ring-2 focus:ring-navy-500/30 bg-transparent"
         >
           <option value="">اختر تصنيفاً</option>
           {categories.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
           <option value="عام">عام</option>
         </select>
 
-        <div className="flex items-center gap-0.5 bg-white rounded-xl border border-navy-50/30 px-0.5">
+        <div className="flex items-center gap-0.5 glass-card rounded-xl px-0.5">
           {(['draft', 'published', 'scheduled'] as const).map(s => (
             <button
               key={s}
               onClick={() => setStatus(s)}
               className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition-colors ${
-                status === s ? 'bg-navy-500/[0.07] text-navy-500' : 'text-navy-300 hover:text-navy-600'
+                status === s ? 'bg-navy-500/20 text-teal-400' : 'text-navy-300 hover:text-white'
               }`}
             >
               {s === 'draft' && 'مسودة'}
@@ -117,7 +117,7 @@ export default function ArticleEditor() {
         value={content}
         onChange={e => setContent(e.target.value)}
         rows={14}
-        className="w-full bg-white rounded-xl sm:rounded-2xl border border-navy-50/30 px-4 sm:px-6 py-4 sm:py-5 text-sm leading-8 focus:outline-none focus:ring-2 focus:ring-navy-100 placeholder-navy-200 text-navy-900 resize-none"
+        className="w-full glass-card rounded-xl sm:rounded-2xl px-4 sm:px-6 py-4 sm:py-5 text-sm text-white leading-8 placeholder-navy-200 focus:outline-none focus:ring-2 focus:ring-navy-500/30 resize-none"
       />
 
       <div className="flex items-center gap-3 text-[10px] sm:text-xs text-navy-300">

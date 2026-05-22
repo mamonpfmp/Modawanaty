@@ -25,39 +25,39 @@ export default function Articles() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-5 max-w-[1100px]">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold text-gray-800">المقالات</h1>
-          <p className="text-sm text-gray-400 mt-1">إدارة جميع مقالات المدونة</p>
+          <h1 className="text-xl sm:text-2xl font-extrabold text-gray-800">المقالات</h1>
+          <p className="text-xs sm:text-sm text-gray-400 mt-1">إدارة جميع مقالات المدونة</p>
         </div>
         <button
           onClick={() => navigate('/articles/new')}
-          className="flex items-center gap-2 px-4 py-2.5 bg-blue-500 text-white rounded-xl text-sm font-semibold hover:bg-blue-600 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-2 bg-blue-500 text-white rounded-xl text-xs sm:text-sm font-semibold hover:bg-blue-600 transition-colors self-start sm:self-auto"
         >
-          <Plus size={16} />
+          <Plus size={15} />
           مقال جديد
         </button>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1 max-w-sm">
-          <Search size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300" />
+          <Search size={15} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300" />
           <input
             type="text"
             placeholder="ابحث عن مقال..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="w-full pr-9 pl-3 py-2.5 bg-white rounded-xl text-sm border border-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-100 placeholder-gray-300"
+            className="w-full pr-9 pl-3 py-2 bg-white rounded-xl text-xs sm:text-sm border border-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-100 placeholder-gray-300"
           />
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 overflow-x-auto hide-scrollbar">
           {(['all', 'published', 'draft', 'scheduled'] as StatusFilter[]).map(f => (
             <button
               key={f}
               onClick={() => setStatusFilter(f)}
-              className={`text-xs font-medium px-3 py-2 rounded-xl transition-colors ${
+              className={`text-[11px] sm:text-xs font-medium px-2.5 py-1.5 rounded-lg transition-colors whitespace-nowrap flex-shrink-0 ${
                 statusFilter === f ? 'bg-blue-500 text-white' : 'bg-white text-gray-500 hover:bg-gray-50 border border-gray-100'
               }`}
             >
@@ -68,7 +68,7 @@ export default function Articles() {
       </div>
 
       {/* Articles */}
-      <div className="space-y-3">
+      <div className="space-y-2.5">
         {filtered.length > 0 ? (
           filtered.map(article => (
             <ArticleRow
@@ -84,12 +84,9 @@ export default function Articles() {
             />
           ))
         ) : (
-          <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center">
+          <div className="bg-white rounded-2xl border border-gray-100 p-8 text-center">
             <p className="text-gray-400 text-sm">لا توجد مقالات</p>
-            <button
-              onClick={() => navigate('/articles/new')}
-              className="mt-3 text-blue-500 text-sm font-medium hover:underline"
-            >
+            <button onClick={() => navigate('/articles/new')} className="mt-2 text-blue-500 text-sm font-medium hover:underline">
               أضف مقالاً جديداً
             </button>
           </div>

@@ -1,67 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
   font-family: 'Tajawal', sans-serif;
-  background-color: #f3f3f1;
-  color: #0d065b;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  background: #0a0a2e;
+  color: #e8e8f0;
+  direction: rtl;
+  min-height: 100vh;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 5px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #d0cef5;
-  border-radius: 3px;
-}
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0a0a2e; }
+::-webkit-scrollbar-thumb { background: #2e2eff33; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #2e2eff55; }
 
-/* Card hover effect */
-.card-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(13, 6, 91, 0.06);
-}
+/* Card hover */
+.card-hover { transition: transform 0.2s, box-shadow 0.2s; }
+.card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(46,46,255,0.12); }
 
-/* Sidebar nav item */
-.sidebar-item {
-  transition: all 0.15s ease;
-}
-
-/* Mobile slide-in animation */
-@keyframes slideIn {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
-}
-.animate-slide-in {
-  animation: slideIn 0.25s ease-out;
-}
-
-/* Hide scrollbar on filter row */
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Teal gradient accent */
-.accent-gradient {
+/* Gradient accents */
+.accent-gradient { background: linear-gradient(135deg, #2e2eff 0%, #00d6d6 100%); }
+.accent-gradient-text {
   background: linear-gradient(135deg, #2e2eff 0%, #00d6d6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
+
+/* Glass card effect */
+.glass-card {
+  background: rgba(15, 15, 61, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Bottom nav safe area */
+.pb-safe { padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px)); }

@@ -1,52 +1,53 @@
-import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import { Menu } from 'lucide-react';
+import { Home, FileText, BarChart3, Settings, Search } from 'lucide-react';
+import { useLocation, Link } from 'react-router-dom';
+
+const bottomNavItems = [
+  { icon: Home, label: 'الرئيسية', path: '/' },
+  { icon: FileText, label: 'المقالات', path: '/articles' },
+  { icon: Search, label: 'بحث', path: '/categories' },
+  { icon: BarChart3, label: 'التحليلات', path: '/analytics' },
+  { icon: Settings, label: 'الإعدادات', path: '/settings' },
+];
 
 export default function Layout() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { pathname } = useLocation();
 
   return (
-    <div className="flex min-h-screen bg-surface" dir="rtl">
-      {/* Desktop sidebar — always visible on lg+ */}
-      <aside className="hidden lg:block sticky top-0 h-screen w-64 flex-shrink-0">
-        <Sidebar onClose={() => {}} />
-      </aside>
-
-      {/* Mobile sidebar overlay */}
-      {sidebarOpen && (
-        <>
-          <div
-            className="fixed inset-0 bg-navy-900/40 z-40 lg:hidden"
-            onClick={() => setSidebarOpen(false)}
-          />
-          <aside className="fixed top-0 right-0 z-50 h-screen w-72 lg:hidden animate-slide-in">
-            <Sidebar onClose={() => setSidebarOpen(false)} />
-          </aside>
-        </>
-      )}
+    <div className="flex min-h-screen bg-navy-900">
+      {/* Desktop sidebar */}
+      <div className="hidden lg:block">
+        <Sidebar />
+      </div>
 
       {/* Main content */}
-      <main className="flex-1 min-w-0">
-        {/* Mobile header */}
-        <div className="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 py-3 bg-white/90 backdrop-blur-sm border-b border-navy-50">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="p-2 rounded-xl hover:bg-navy-50 transition-colors"
-            aria-label="القائمة"
-          >
-            <Menu size={22} className="text-navy-900" />
-          </button>
-          <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="Modawnty" className="h-7" />
-          </div>
-          <div className="w-10" />
-        </div>
-
-        <div className="p-4 sm:p-6 lg:p-8">
+      <main className="flex-1 lg:mr-64 pb-safe lg:pb-0">
+        <div className="p-4 sm:p-6 lg:p-8 max-w-5xl">
           <Outlet />
         </div>
       </main>
+
+      {/* Mobile bottom nav */}
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-navy-950/95 backdrop-blur-lg border-t border-navy-50">
+        <div className="flex items-center justify-around h-16 px-2">
+          {bottomNavItems.map(item => {
+            const active = pathname === item.path || (item.path !== '/' && pathname.startsWith(item.path));
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-colors ${
+                  active ? 'text-teal-500' : 'text-navy-300 hover:text-white'
+                }`}
+              >
+                <item.icon size={20} strokeWidth={active ? 2.5 : 1.5} />
+                <span className="text-[10px] font-medium">{item.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
     </div>
   );
 }

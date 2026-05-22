@@ -1,23 +1,21 @@
 import { LucideIcon } from 'lucide-react';
 
-interface QuickActionProps {
+interface Props {
+  label: string;
   icon: LucideIcon;
-  title: string;
-  description: string;
   onClick?: () => void;
 }
 
-export default function QuickAction({ icon: Icon, title, description, onClick }: QuickActionProps) {
+export default function QuickAction({ label, icon: Icon, onClick }: Props) {
   return (
     <button
       onClick={onClick}
-      className="flex flex-col items-center gap-1.5 p-3 sm:p-4 bg-surface rounded-xl hover:bg-navy-50/50 transition-colors text-center"
+      className="flex flex-col items-center gap-2 p-4 glass-card rounded-2xl card-hover hover:border-navy-500/30 transition-all group"
     >
-      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-navy-500/[0.07] flex items-center justify-center">
-        <Icon size={17} className="text-navy-500" />
+      <div className="w-11 h-11 rounded-xl bg-navy-500/10 flex items-center justify-center group-hover:bg-navy-500/20 transition-colors">
+        <Icon size={20} className="text-navy-500" />
       </div>
-      <span className="text-[10px] sm:text-xs font-bold text-navy-900">{title}</span>
-      <span className="text-[9px] sm:text-[11px] text-navy-300 leading-tight">{description}</span>
+      <span className="text-xs font-semibold text-navy-300 group-hover:text-white transition-colors">{label}</span>
     </button>
   );
 }

@@ -1,97 +1,81 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Search } from 'lucide-react';
-import ArticleRow from '../components/ArticleRow';
+import ArticleCard from '../components/ArticleRow';
 import { useArticles } from '../hooks/useArticles';
-
-type StatusFilter = 'all' | 'published' | 'draft' | 'scheduled';
 
 export default function Articles() {
   const navigate = useNavigate();
-  const { articles, removeArticle } = useArticles();
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  const { articles, categories } = useArticles();
+  const [filter, setFilter] = useState('الكل');
+  const [search, setSearch] = useState('');
+
+  const allCats = ['الكل', ...categories.map(c => c.name)];
 
   const filtered = articles.filter(a => {
-    if (statusFilter !== 'all' && a.status !== statusFilter) return false;
-    if (searchQuery && !a.title.includes(searchQuery) && !a.category.includes(searchQuery)) return false;
-    return true;
+    const matchCat = filter === 'الكل' || a.category === filter;
+    const matchSearch = !search || a.title.includes(search) || a.excerpt.includes(search);
+    return matchCat && matchSearch;
   });
 
-  const handleDelete = async (id: string) => {
-    if (confirm('هل أنت متأكد من حذف هذا المقال؟')) {
-      await removeArticle(id);
-    }
-  };
-
   return (
-    <div className="space-y-5 max-w-[1100px]">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div className="space-y-5">
+      {/* Header */}
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-navy-900">المقالات</h1>
-          <p className="text-xs sm:text-sm text-navy-300 mt-1">إدارة جميع مقالات المدونة</p>
+          <h1 className="text-xl sm:text-2xl font-extrabold text-white">المقالات</h1>
+          <p className="text-xs text-navy-300 mt-0.5">{articles.length} مقال</p>
         </div>
         <button
           onClick={() => navigate('/articles/new')}
-          className="flex items-center gap-1.5 px-4 py-2 bg-navy-500 text-white rounded-full text-xs sm:text-sm font-semibold hover:bg-navy-600 transition-colors self-start sm:self-auto"
+          className="flex items-center gap-2 px-4 py-2.5 accent-gradient text-white rounded-xl text-sm font-bold hover:opacity-90 transition-opacity"
         >
-          <Plus size={15} />
-          مقال جديد
+          <Plus size={16} />
+          <span className="hidden sm:inline">مقال جديد</span>
         </button>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="relative flex-1 max-w-sm">
-          <Search size={15} className="absolute right-3 top-1/2 -translate-y-1/2 text-navy-200" />
-          <input
-            type="text"
-            placeholder="ابحث عن مقال..."
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-            className="w-full pr-9 pl-3 py-2 bg-white rounded-xl text-xs sm:text-sm border border-navy-50/30 focus:outline-none focus:ring-2 focus:ring-navy-100 placeholder-navy-200"
-          />
-        </div>
-        <div className="flex gap-2 overflow-x-auto hide-scrollbar">
-          {(['all', 'published', 'draft', 'scheduled'] as StatusFilter[]).map(f => (
-            <button
-              key={f}
-              onClick={() => setStatusFilter(f)}
-              className={`text-[11px] sm:text-xs font-medium px-2.5 py-1.5 rounded-full transition-colors whitespace-nowrap flex-shrink-0 ${
-                statusFilter === f ? 'bg-navy-500 text-white' : 'bg-white text-navy-400 hover:bg-surface border border-navy-50/30'
-              }`}
-            >
-              {{ all: 'الكل', published: 'منشور', draft: 'مسودة', scheduled: 'مجدول' }[f]}
-            </button>
-          ))}
-        </div>
+      {/* Search */}
+      <div className="relative">
+        <Search size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-navy-300" />
+        <input
+          type="text"
+          placeholder="ابحث في المقالات..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className="w-full glass-card rounded-xl pr-10 pl-4 py-2.5 text-sm text-white placeholder-navy-300 focus:outline-none focus:ring-2 focus:ring-navy-500/30"
+        />
       </div>
 
-      {/* Articles */}
-      <div className="space-y-2.5">
-        {filtered.length > 0 ? (
-          filtered.map(article => (
-            <ArticleRow
-              key={article.id}
-              id={article.id}
-              title={article.title}
-              views={article.views}
-              date={article.published_at || article.scheduled_at}
-              readTime={article.read_time}
-              category={article.category}
-              status={article.status}
-              onDelete={handleDelete}
-            />
-          ))
-        ) : (
-          <div className="bg-white rounded-2xl border border-navy-50/30 p-8 text-center">
-            <p className="text-navy-300 text-sm">لا توجد مقالات</p>
-            <button onClick={() => navigate('/articles/new')} className="mt-2 text-navy-500 text-sm font-medium hover:underline">
-              أضف مقالاً جديداً
-            </button>
-          </div>
-        )}
+      {/* Category pills */}
+      <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+        {allCats.map(cat => (
+          <button
+            key={cat}
+            onClick={() => setFilter(cat)}
+            className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
+              filter === cat
+                ? 'accent-gradient text-white'
+                : 'glass-card text-navy-300 hover:text-white hover:border-navy-500/30'
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
       </div>
+
+      {/* Articles grid */}
+      {filtered.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filtered.map(article => (
+            <ArticleCard key={article.id} article={article} />
+          ))}
+        </div>
+      ) : (
+        <div className="glass-card rounded-2xl p-12 text-center">
+          <p className="text-navy-300 text-sm">لا توجد مقالات</p>
+        </div>
+      )}
     </div>
   );
 }

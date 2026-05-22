@@ -1,100 +1,91 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { MoreVertical, Eye, Calendar, Clock, Pencil, Trash2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Eye, Clock, MoreVertical, Calendar } from 'lucide-react';
+import type { Article } from '../data/articles';
 
-interface ArticleRowProps {
-  id: string;
-  title: string;
-  views: number;
-  date: string | null;
-  readTime: number;
-  category: string;
-  status: 'published' | 'draft' | 'scheduled';
-  onDelete: (id: string) => void;
-}
+// Card-style article (modonty look)
+export default function ArticleCard({ article }: { article: Article }) {
+  const statusColors: Record<string, string> = {
+    published: 'bg-teal-500/15 text-teal-400',
+    draft: 'bg-navy-500/15 text-navy-400',
+    scheduled: 'bg-amber-500/15 text-amber-400',
+  };
+  const statusLabels: Record<string, string> = {
+    published: 'منشور',
+    draft: 'مسودة',
+    scheduled: 'مجدول',
+  };
 
-const statusConfig = {
-  published: { label: 'منشور', color: 'text-teal-700 bg-teal-50', dot: 'bg-teal-500' },
-  draft: { label: 'مسودة', color: 'text-amber-600 bg-amber-50', dot: 'bg-amber-500' },
-  scheduled: { label: 'مجدول', color: 'text-navy-500 bg-navy-50', dot: 'bg-navy-500' },
-};
-
-function formatDate(dateStr: string | null): string {
-  if (!dateStr) return '—';
-  const d = new Date(dateStr);
-  return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
-}
-
-function formatViews(n: number): string {
-  if (n >= 1000) return `${(n / 1000).toFixed(1)}k`;
-  return String(n);
-}
-
-export default function ArticleRow({ id, title, views, date, readTime, category, status, onDelete }: ArticleRowProps) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = useNavigate();
-  const cfg = statusConfig[status];
+  // Generate a placeholder gradient for articles without images
+  const gradients = [
+    'from-navy-500/40 to-teal-500/30',
+    'from-navy-800 to-navy-500/40',
+    'from-teal-600/30 to-navy-700',
+    'from-navy-500/30 to-purple-600/20',
+  ];
+  const gradientIdx = article.title.length % gradients.length;
 
   return (
-    <div className="bg-surface/70 rounded-xl p-3 sm:p-4 hover:bg-surface transition-colors">
-      <div className="flex items-start gap-3">
-        {/* Content */}
-        <div className="flex-1 min-w-0">
-          <h3 className="text-xs sm:text-sm font-bold text-navy-900 mb-1.5 leading-relaxed line-clamp-2">{title}</h3>
-          <div className="flex flex-wrap items-center gap-2 text-[10px] sm:text-xs text-navy-300">
-            <span className="flex items-center gap-0.5">
-              <Eye size={11} />
-              {formatViews(views)}
+    <Link to={`/articles/${article.id}`} className="block">
+      <div className="glass-card rounded-2xl overflow-hidden card-hover group">
+        {/* Image area */}
+        <div className={`h-40 sm:h-48 bg-gradient-to-br ${gradients[gradientIdx]} relative`}>
+          <div className="absolute inset-0 bg-navy-900/20" />
+          <div className="absolute top-3 right-3">
+            <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${statusColors[article.status]}`}>
+              {statusLabels[article.status]}
             </span>
-            <span className="flex items-center gap-0.5">
-              <Calendar size={11} />
-              {formatDate(date)}
+          </div>
+          <div className="absolute bottom-3 right-3 left-3">
+            <span className="text-[10px] font-medium text-teal-400 bg-navy-900/60 px-2 py-0.5 rounded-full">
+              {article.category}
             </span>
-            <span className="hidden sm:flex items-center gap-0.5">
-              <Clock size={11} />
-              {readTime} د
-            </span>
-            <span className="bg-white px-1.5 py-0.5 rounded text-navy-400">{category}</span>
           </div>
         </div>
 
-        {/* Status */}
-        <span className={`flex items-center gap-1 text-[10px] sm:text-xs font-medium px-2 py-1 rounded-full whitespace-nowrap flex-shrink-0 ${cfg.color}`}>
-          <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
-          {cfg.label}
-        </span>
+        {/* Content */}
+        <div className="p-4">
+          {/* Author row */}
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-6 h-6 rounded-full accent-gradient flex items-center justify-center text-white text-[9px] font-bold">
+              م
+            </div>
+            <span className="text-[11px] text-navy-300">المدوّن</span>
+            <span className="text-navy-200 text-[10px]">·</span>
+            <div className="flex items-center gap-1 text-[10px] text-navy-200">
+              <Calendar size={10} />
+              {article.published_at
+                ? new Date(article.published_at).toLocaleDateString('ar-SA', { month: 'short', day: 'numeric' })
+                : 'غير منشور'
+              }
+            </div>
+            <div className="flex items-center gap-1 text-[10px] text-navy-200">
+              <Clock size={10} />
+              {article.read_time} د
+            </div>
+          </div>
 
-        {/* Actions */}
-        <div className="relative flex-shrink-0">
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="p-1.5 rounded-lg hover:bg-white text-navy-300"
-          >
-            <MoreVertical size={15} />
-          </button>
-          {menuOpen && (
-            <>
-              <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
-              <div className="absolute left-0 top-full mt-1 bg-white rounded-xl shadow-lg border border-navy-50/30 py-1 z-20 min-w-[100px]">
-                <button
-                  onClick={() => { setMenuOpen(false); navigate(`/articles/${id}/edit`); }}
-                  className="w-full flex items-center gap-2 px-3 py-2 text-xs text-navy-700 hover:bg-surface"
-                >
-                  <Pencil size={13} />
-                  تعديل
-                </button>
-                <button
-                  onClick={() => { setMenuOpen(false); onDelete(id); }}
-                  className="w-full flex items-center gap-2 px-3 py-2 text-xs text-red-500 hover:bg-red-50"
-                >
-                  <Trash2 size={13} />
-                  حذف
-                </button>
-              </div>
-            </>
-          )}
+          {/* Title */}
+          <h3 className="text-sm font-bold text-white group-hover:text-teal-400 transition-colors line-clamp-2 mb-1.5">
+            {article.title}
+          </h3>
+
+          {/* Excerpt */}
+          <p className="text-xs text-navy-300 line-clamp-2 leading-relaxed mb-3">
+            {article.excerpt}
+          </p>
+
+          {/* Footer */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1 text-[10px] text-navy-200">
+              <Eye size={12} />
+              {article.views >= 1000 ? `${(article.views / 1000).toFixed(1)}K` : article.views}
+            </div>
+            <span className="text-[11px] font-semibold text-navy-500 group-hover:text-teal-500 transition-colors">
+              اقرأ المزيد ←
+            </span>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

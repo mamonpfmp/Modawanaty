@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MoreHorizontal, Eye, Calendar, Clock, Pencil, Trash2 } from 'lucide-react';
+import { MoreVertical, Eye, Calendar, Clock, Pencil, Trash2 } from 'lucide-react';
 
 interface ArticleRowProps {
   id: string;
@@ -26,7 +26,7 @@ function formatDate(dateStr: string | null): string {
 }
 
 function formatViews(n: number): string {
-  if (n >= 1000) return new Intl.NumberFormat('ar-SA').format(n);
+  if (n >= 1000) return `${(n / 1000).toFixed(1)}k`;
   return String(n);
 }
 
@@ -36,62 +36,58 @@ export default function ArticleRow({ id, title, views, date, readTime, category,
   const cfg = statusConfig[status];
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-4 card-hover">
-      <div className="flex items-start gap-4">
+    <div className="bg-gray-50/70 rounded-xl p-3 sm:p-4 hover:bg-gray-50 transition-colors">
+      <div className="flex items-start gap-3">
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-bold text-gray-800 mb-2 leading-relaxed">{title}</h3>
-          <div className="flex flex-wrap items-center gap-3 text-xs text-gray-400">
-            <span className="flex items-center gap-1">
-              <Eye size={13} />
+          <h3 className="text-xs sm:text-sm font-bold text-gray-800 mb-1.5 leading-relaxed line-clamp-2">{title}</h3>
+          <div className="flex flex-wrap items-center gap-2 text-[10px] sm:text-xs text-gray-400">
+            <span className="flex items-center gap-0.5">
+              <Eye size={11} />
               {formatViews(views)}
             </span>
-            <span className="flex items-center gap-1">
-              <Calendar size={13} />
+            <span className="flex items-center gap-0.5">
+              <Calendar size={11} />
               {formatDate(date)}
             </span>
-            <span className="flex items-center gap-1">
-              <Clock size={13} />
-              {readTime} دقائق قراءة
+            <span className="hidden sm:flex items-center gap-0.5">
+              <Clock size={11} />
+              {readTime} د
             </span>
+            <span className="bg-white px-1.5 py-0.5 rounded text-gray-500">{category}</span>
           </div>
         </div>
 
-        {/* Category */}
-        <span className="hidden sm:inline-block text-xs text-gray-500 bg-gray-50 px-3 py-1 rounded-full whitespace-nowrap">
-          {category}
-        </span>
-
         {/* Status */}
-        <span className={`flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full whitespace-nowrap ${cfg.color}`}>
+        <span className={`flex items-center gap-1 text-[10px] sm:text-xs font-medium px-2 py-1 rounded-full whitespace-nowrap flex-shrink-0 ${cfg.color}`}>
           <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
           {cfg.label}
         </span>
 
         {/* Actions */}
-        <div className="relative">
+        <div className="relative flex-shrink-0">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="p-2 rounded-lg hover:bg-gray-50 text-gray-400"
+            className="p-1.5 rounded-lg hover:bg-white text-gray-400"
           >
-            <MoreHorizontal size={16} />
+            <MoreVertical size={15} />
           </button>
           {menuOpen && (
             <>
               <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
-              <div className="absolute left-0 top-full mt-1 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-20 min-w-[120px]">
+              <div className="absolute left-0 top-full mt-1 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-20 min-w-[100px]">
                 <button
                   onClick={() => { setMenuOpen(false); navigate(`/articles/${id}/edit`); }}
-                  className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50"
+                  className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-600 hover:bg-gray-50"
                 >
-                  <Pencil size={14} />
+                  <Pencil size={13} />
                   تعديل
                 </button>
                 <button
                   onClick={() => { setMenuOpen(false); onDelete(id); }}
-                  className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50"
+                  className="w-full flex items-center gap-2 px-3 py-2 text-xs text-red-500 hover:bg-red-50"
                 >
-                  <Trash2 size={14} />
+                  <Trash2 size={13} />
                   حذف
                 </button>
               </div>

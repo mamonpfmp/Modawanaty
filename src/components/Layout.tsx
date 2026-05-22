@@ -7,7 +7,7 @@ export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-[#f0f4f8]" dir="rtl">
+    <div className="flex min-h-screen bg-surface" dir="rtl">
       {/* Desktop sidebar — always visible on lg+ */}
       <aside className="hidden lg:block sticky top-0 h-screen w-64 flex-shrink-0">
         <Sidebar onClose={() => {}} />
@@ -17,7 +17,7 @@ export default function Layout() {
       {sidebarOpen && (
         <>
           <div
-            className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+            className="fixed inset-0 bg-navy-900/40 z-40 lg:hidden"
             onClick={() => setSidebarOpen(false)}
           />
           <aside className="fixed top-0 right-0 z-50 h-screen w-72 lg:hidden animate-slide-in">
@@ -29,15 +29,17 @@ export default function Layout() {
       {/* Main content */}
       <main className="flex-1 min-w-0">
         {/* Mobile header */}
-        <div className="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 py-3 bg-white/90 backdrop-blur-sm border-b border-gray-100">
+        <div className="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 py-3 bg-white/90 backdrop-blur-sm border-b border-navy-50">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-xl hover:bg-navy-50 transition-colors"
             aria-label="القائمة"
           >
-            <Menu size={22} className="text-gray-600" />
+            <Menu size={22} className="text-navy-900" />
           </button>
-          <h1 className="text-base font-bold text-gray-800">مدونتي</h1>
+          <div className="flex items-center gap-2">
+            <img src="/logo.png" alt="Modawnty" className="h-7" />
+          </div>
           <div className="w-10" />
         </div>
 

@@ -19,8 +19,8 @@ export default function Categories() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-extrabold text-navy-900">التصنيفات</h1>
-        <p className="text-sm text-navy-300 mt-1">تنظيم المقالات حسب الموضوع</p>
+        <h1 className="text-xl sm:text-2xl font-extrabold text-white">التصنيفات</h1>
+        <p className="text-xs text-navy-300 mt-1">تنظيم المقالات حسب الموضوع</p>
       </div>
 
       {/* Add new category */}
@@ -30,11 +30,11 @@ export default function Categories() {
           placeholder="اسم التصنيف الجديد..."
           value={newCat}
           onChange={e => setNewCat(e.target.value)}
-          className="flex-1 max-w-sm bg-white rounded-xl border border-navy-50/30 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-navy-100 placeholder-navy-200"
+          className="flex-1 max-w-sm glass-card rounded-xl px-4 py-2.5 text-sm text-white placeholder-navy-300 focus:outline-none focus:ring-2 focus:ring-navy-500/30"
         />
         <button
           onClick={() => { if (newCat.trim()) setNewCat(''); }}
-          className="flex items-center gap-2 px-4 py-2.5 bg-navy-500 text-white rounded-full text-sm font-semibold hover:bg-navy-600 transition-colors"
+          className="flex items-center gap-2 px-4 py-2.5 accent-gradient text-white rounded-xl text-sm font-bold hover:opacity-90 transition-opacity"
         >
           <Plus size={16} />
           إضافة
@@ -44,18 +44,18 @@ export default function Categories() {
       {/* Categories grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {allCats.map(name => (
-          <div key={name} className="bg-white rounded-2xl border border-navy-50/30 p-5 card-hover">
+          <div key={name} className="glass-card rounded-2xl p-5 card-hover">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-navy-500/[0.07] flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-navy-500/10 flex items-center justify-center">
                   <FolderOpen size={20} className="text-navy-500" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-navy-900">{name}</h3>
+                  <h3 className="text-sm font-bold text-white">{name}</h3>
                   <p className="text-xs text-navy-300">{catCounts[name] || 0} مقال</p>
                 </div>
               </div>
-              <button className="p-2 rounded-lg hover:bg-red-50 text-navy-200 hover:text-red-400 transition-colors">
+              <button className="p-2 rounded-lg hover:bg-red-500/10 text-navy-300 hover:text-red-400 transition-colors">
                 <Trash2 size={14} />
               </button>
             </div>

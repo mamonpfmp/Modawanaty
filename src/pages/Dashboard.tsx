@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BarChart3, Eye, FileText, PenLine, Bell, Plus, CalendarPlus, FolderPlus, ImagePlus, Upload, Sparkles, Filter } from 'lucide-react';
+import { BarChart3, Eye, FileText, PenLine, Bell, Plus, CalendarPlus, FolderPlus, ImagePlus, Sparkles, Filter } from 'lucide-react';
 import StatsCard from '../components/StatsCard';
 import VisitChart from '../components/VisitChart';
 import QuickAction from '../components/QuickAction';
@@ -32,17 +32,17 @@ export default function Dashboard() {
       {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-gray-800">لوحة تحكم المدونة</h1>
-          <p className="text-xs sm:text-sm text-gray-400 mt-1">إدارة المحتوى وتتبع الزيارات بسهولة</p>
+          <h1 className="text-xl sm:text-2xl font-extrabold text-navy-900">لوحة تحكم المدونة</h1>
+          <p className="text-xs sm:text-sm text-navy-300 mt-1">إدارة المحتوى وتتبع الزيارات بسهولة</p>
         </div>
         <div className="flex items-center gap-2">
-          <button className="relative p-2 bg-white rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors">
-            <Bell size={18} className="text-gray-500" />
-            <span className="absolute -top-1 -left-1 w-4 h-4 bg-blue-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">3</span>
+          <button className="relative p-2 bg-white rounded-xl border border-navy-50/30 hover:bg-surface transition-colors">
+            <Bell size={18} className="text-navy-400" />
+            <span className="absolute -top-1 -left-1 w-4 h-4 bg-teal-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">3</span>
           </button>
           <button
             onClick={() => navigate('/articles/new')}
-            className="flex items-center gap-1.5 px-3 py-2 bg-blue-500 text-white rounded-xl text-xs sm:text-sm font-semibold hover:bg-blue-600 transition-colors"
+            className="flex items-center gap-1.5 px-4 py-2 bg-navy-500 text-white rounded-full text-xs sm:text-sm font-semibold hover:bg-navy-600 transition-colors"
           >
             <Plus size={15} />
             مقال جديد
@@ -50,7 +50,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Stats Cards — 2 cols on mobile, 4 on lg */}
+      {/* Stats Cards */}
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatsCard
           label="إجمالي الزيارات"
@@ -58,8 +58,8 @@ export default function Dashboard() {
           subtitle="آخر 14 يوماً"
           change="+12.4%"
           icon={BarChart3}
-          iconColor="text-blue-600"
-          iconBg="bg-blue-50"
+          iconColor="text-navy-500"
+          iconBg="bg-navy-500/[0.07]"
         />
         <StatsCard
           label="مشاهدات المقالات"
@@ -67,18 +67,18 @@ export default function Dashboard() {
           subtitle="لكل المقالات"
           change="+6.1%"
           icon={Eye}
-          iconColor="text-emerald-600"
-          iconBg="bg-emerald-50"
+          iconColor="text-teal-600"
+          iconBg="bg-teal-50"
         />
         <StatsCard
           label="مقالات منشورة"
           value={String(stats.publishedCount)}
           subtitle="جاهزة للقراءة"
           badge="نشط"
-          badgeColor="text-green-600 bg-green-50"
+          badgeColor="text-teal-700 bg-teal-50"
           icon={FileText}
-          iconColor="text-violet-600"
-          iconBg="bg-violet-50"
+          iconColor="text-navy-500"
+          iconBg="bg-navy-50"
         />
         <StatsCard
           label="مسودات"
@@ -97,9 +97,9 @@ export default function Dashboard() {
         <div className="lg:col-span-2">
           <VisitChart />
         </div>
-        <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-5">
-          <h3 className="text-sm sm:text-base font-bold text-gray-800 mb-1">أزرار إدارة المحتوى</h3>
-          <p className="text-[11px] text-gray-400 mb-3">إجراءات شائعة لتنظيم يومك.</p>
+        <div className="bg-white rounded-2xl border border-navy-50/30 p-4 sm:p-5">
+          <h3 className="text-sm sm:text-base font-bold text-navy-900 mb-1">أزرار إدارة المحتوى</h3>
+          <p className="text-[11px] text-navy-300 mb-3">إجراءات شائعة لتنظيم يومك.</p>
           <div className="grid grid-cols-2 gap-2 sm:gap-3">
             <QuickAction icon={CalendarPlus} title="جدولة مقال" description="اختر تاريخ نشر" />
             <QuickAction icon={FolderPlus} title="إضافة تصنيف" description="رتّب مقالاتك" onClick={() => navigate('/categories')} />
@@ -110,33 +110,33 @@ export default function Dashboard() {
       </div>
 
       {/* Articles List */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-5">
+      <div className="bg-white rounded-2xl border border-navy-50/30 p-4 sm:p-5">
         <div className="flex flex-col gap-3 mb-4">
           <div>
-            <h3 className="text-sm sm:text-base font-bold text-gray-800">قائمة المقالات</h3>
-            <p className="text-[11px] text-gray-400 mt-0.5">إدارة سريعة — تعديل، حذف، وتتبع المشاهدات</p>
+            <h3 className="text-sm sm:text-base font-bold text-navy-900">قائمة المقالات</h3>
+            <p className="text-[11px] text-navy-300 mt-0.5">إدارة سريعة — تعديل، حذف، وتتبع المشاهدات</p>
           </div>
 
-          {/* Filters row — scrollable on mobile */}
+          {/* Filters row */}
           <div className="flex items-center gap-2 overflow-x-auto hide-scrollbar pb-1">
             <div className="relative flex-shrink-0">
-              <Filter size={13} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-300" />
+              <Filter size={13} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-navy-200" />
               <input
                 type="text"
                 placeholder="بحث..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="pr-8 pl-2 py-1.5 bg-gray-50 rounded-lg text-xs border-0 focus:outline-none focus:ring-2 focus:ring-blue-100 placeholder-gray-300 w-[120px] sm:w-[180px]"
+                className="pr-8 pl-2 py-1.5 bg-surface rounded-lg text-xs border-0 focus:outline-none focus:ring-2 focus:ring-navy-100 placeholder-navy-200 w-[120px] sm:w-[180px]"
               />
             </div>
             {(['all', 'published', 'draft', 'scheduled'] as StatusFilter[]).map(f => (
               <button
                 key={f}
                 onClick={() => setStatusFilter(f)}
-                className={`text-[11px] sm:text-xs font-medium px-2.5 py-1.5 rounded-lg transition-colors whitespace-nowrap flex-shrink-0 ${
+                className={`text-[11px] sm:text-xs font-medium px-2.5 py-1.5 rounded-full transition-colors whitespace-nowrap flex-shrink-0 ${
                   statusFilter === f
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
+                    ? 'bg-navy-500 text-white'
+                    : 'bg-surface text-navy-400 hover:bg-navy-50'
                 }`}
               >
                 {{ all: 'الكل', published: 'منشور', draft: 'مسودة', scheduled: 'مجدول' }[f]}
@@ -162,7 +162,7 @@ export default function Dashboard() {
             ))
           ) : (
             <div className="text-center py-8">
-              <p className="text-gray-400 text-sm">لا توجد نتائج</p>
+              <p className="text-navy-300 text-sm">لا توجد نتائج</p>
             </div>
           )}
         </div>

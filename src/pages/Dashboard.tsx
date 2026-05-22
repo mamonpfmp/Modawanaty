@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BarChart3, Eye, FileText, PenLine, Bell, Plus, CalendarPlus, FolderPlus, ImagePlus, Upload, Sparkles, Search, Filter } from 'lucide-react';
+import { BarChart3, Eye, FileText, PenLine, Bell, Plus, CalendarPlus, FolderPlus, ImagePlus, Upload, Sparkles, Filter } from 'lucide-react';
 import StatsCard from '../components/StatsCard';
 import VisitChart from '../components/VisitChart';
 import QuickAction from '../components/QuickAction';
@@ -28,30 +28,30 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 max-w-[1100px]">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold text-gray-800">لوحة تحكم المدونة</h1>
-          <p className="text-sm text-gray-400 mt-1">Minimal UI لإدارة المحتوى وتتبع الزيارات بسهولة.</p>
+          <h1 className="text-xl sm:text-2xl font-extrabold text-gray-800">لوحة تحكم المدونة</h1>
+          <p className="text-xs sm:text-sm text-gray-400 mt-1">إدارة المحتوى وتتبع الزيارات بسهولة</p>
         </div>
-        <div className="flex items-center gap-3">
-          <button className="relative p-2.5 bg-white rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors">
+        <div className="flex items-center gap-2">
+          <button className="relative p-2 bg-white rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors">
             <Bell size={18} className="text-gray-500" />
-            <span className="absolute -top-1 -left-1 w-5 h-5 bg-blue-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">3</span>
+            <span className="absolute -top-1 -left-1 w-4 h-4 bg-blue-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">3</span>
           </button>
           <button
             onClick={() => navigate('/articles/new')}
-            className="flex items-center gap-2 px-4 py-2.5 bg-blue-500 text-white rounded-xl text-sm font-semibold hover:bg-blue-600 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-2 bg-blue-500 text-white rounded-xl text-xs sm:text-sm font-semibold hover:bg-blue-600 transition-colors"
           >
-            <Plus size={16} />
+            <Plus size={15} />
             مقال جديد
           </button>
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Stats Cards — 2 cols on mobile, 4 on lg */}
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatsCard
           label="إجمالي الزيارات"
           value={stats.totalVisits >= 1000 ? `${(stats.totalVisits / 1000).toFixed(1)} ألف` : String(stats.totalVisits)}
@@ -97,45 +97,43 @@ export default function Dashboard() {
         <div className="lg:col-span-2">
           <VisitChart />
         </div>
-        <div className="bg-white rounded-2xl border border-gray-100 p-5">
-          <h3 className="text-base font-bold text-gray-800 mb-1">أزرار إدارة المحتوى</h3>
-          <p className="text-xs text-gray-400 mb-4">إجراءات شائعة لتنظيم يومك.</p>
-          <div className="grid grid-cols-2 gap-3">
-            <QuickAction icon={CalendarPlus} title="جدولة مقال" description="اختر تاريخ نشر مناسب." />
-            <QuickAction icon={FolderPlus} title="إضافة تصنيف" description="رتّب مقالاتك بسهولة." onClick={() => navigate('/categories')} />
-            <QuickAction icon={ImagePlus} title="رفع صورة غلاف" description="تجميل المقال بصرياً." />
-            <QuickAction icon={Upload} title="استيراد محتوى" description="من ملف أو منصة أخرى." />
-          </div>
-          <div className="mt-3 flex justify-center">
-            <QuickAction icon={Sparkles} title="تحسين النص" description="تنسيق وتحسين سريع." />
+        <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-5">
+          <h3 className="text-sm sm:text-base font-bold text-gray-800 mb-1">أزرار إدارة المحتوى</h3>
+          <p className="text-[11px] text-gray-400 mb-3">إجراءات شائعة لتنظيم يومك.</p>
+          <div className="grid grid-cols-2 gap-2 sm:gap-3">
+            <QuickAction icon={CalendarPlus} title="جدولة مقال" description="اختر تاريخ نشر" />
+            <QuickAction icon={FolderPlus} title="إضافة تصنيف" description="رتّب مقالاتك" onClick={() => navigate('/categories')} />
+            <QuickAction icon={ImagePlus} title="رفع صورة" description="غلاف المقال" />
+            <QuickAction icon={Sparkles} title="تحسين النص" description="تنسيق سريع" />
           </div>
         </div>
       </div>
 
       {/* Articles List */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
+      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-5">
+        <div className="flex flex-col gap-3 mb-4">
           <div>
-            <h3 className="text-base font-bold text-gray-800">قائمة المقالات</h3>
-            <p className="text-xs text-gray-400 mt-1">إدارة سريعة للمحتوى — تعديل، حذف، وتتبع المشاهدات.</p>
+            <h3 className="text-sm sm:text-base font-bold text-gray-800">قائمة المقالات</h3>
+            <p className="text-[11px] text-gray-400 mt-0.5">إدارة سريعة — تعديل، حذف، وتتبع المشاهدات</p>
           </div>
 
-          <div className="flex items-center gap-2">
-            <div className="relative">
-              <Filter size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300" />
+          {/* Filters row — scrollable on mobile */}
+          <div className="flex items-center gap-2 overflow-x-auto hide-scrollbar pb-1">
+            <div className="relative flex-shrink-0">
+              <Filter size={13} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-300" />
               <input
                 type="text"
-                placeholder="ابحث عن مقال أو تصنيف"
+                placeholder="بحث..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="pr-9 pl-3 py-2 bg-gray-50 rounded-xl text-sm border-0 focus:outline-none focus:ring-2 focus:ring-blue-100 placeholder-gray-300 w-[200px]"
+                className="pr-8 pl-2 py-1.5 bg-gray-50 rounded-lg text-xs border-0 focus:outline-none focus:ring-2 focus:ring-blue-100 placeholder-gray-300 w-[120px] sm:w-[180px]"
               />
             </div>
             {(['all', 'published', 'draft', 'scheduled'] as StatusFilter[]).map(f => (
               <button
                 key={f}
                 onClick={() => setStatusFilter(f)}
-                className={`text-xs font-medium px-3 py-2 rounded-xl transition-colors ${
+                className={`text-[11px] sm:text-xs font-medium px-2.5 py-1.5 rounded-lg transition-colors whitespace-nowrap flex-shrink-0 ${
                   statusFilter === f
                     ? 'bg-blue-500 text-white'
                     : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
@@ -147,15 +145,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Table header */}
-        <div className="hidden sm:grid grid-cols-[1fr_auto_auto_auto] gap-4 px-4 py-2 text-xs font-semibold text-gray-400 mb-2">
-          <span>العنوان</span>
-          <span className="w-20 text-center">التصنيف</span>
-          <span className="w-20 text-center">الحالة</span>
-          <span className="w-10 text-center">إجراءات</span>
-        </div>
-
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           {filteredArticles.length > 0 ? (
             filteredArticles.map(article => (
               <ArticleRow
@@ -171,9 +161,8 @@ export default function Dashboard() {
               />
             ))
           ) : (
-            <div className="text-center py-12">
+            <div className="text-center py-8">
               <p className="text-gray-400 text-sm">لا توجد نتائج</p>
-              <p className="text-gray-300 text-xs mt-1">حاول تغيير البحث أو تصفية الحالة.</p>
             </div>
           )}
         </div>

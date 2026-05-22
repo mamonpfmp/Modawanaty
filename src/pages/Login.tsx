@@ -57,25 +57,22 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f6f8] flex flex-col items-center justify-center px-4" dir="rtl">
+    <div className="min-h-screen bg-surface flex flex-col items-center justify-center px-4" dir="rtl">
       {/* Logo */}
-      <div className="mb-8 flex items-center gap-3">
-        <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center">
-          <span className="text-white text-xl font-bold">م</span>
-        </div>
-        <h1 className="text-3xl font-extrabold text-emerald-600">مدونتي</h1>
+      <div className="mb-8">
+        <img src="/logo.png" alt="Modawnty" className="h-12" />
       </div>
 
       {/* Card */}
-      <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
+      <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm border border-navy-50/30 p-6 sm:p-8">
         {/* Tabs */}
-        <div className="flex bg-gray-50 rounded-xl p-1 mb-6">
+        <div className="flex bg-surface rounded-xl p-1 mb-6">
           <button
             onClick={() => { setMode('login'); setError(''); setSuccess(''); }}
             className={`flex-1 py-2.5 rounded-lg text-sm font-bold transition-all ${
               mode === 'login'
-                ? 'bg-white text-gray-800 shadow-sm'
-                : 'text-gray-400 hover:text-gray-600'
+                ? 'bg-white text-navy-900 shadow-sm'
+                : 'text-navy-300 hover:text-navy-600'
             }`}
           >
             دخول
@@ -84,8 +81,8 @@ export default function Login() {
             onClick={() => { setMode('register'); setError(''); setSuccess(''); }}
             className={`flex-1 py-2.5 rounded-lg text-sm font-bold transition-all ${
               mode === 'register'
-                ? 'bg-white text-gray-800 shadow-sm'
-                : 'text-gray-400 hover:text-gray-600'
+                ? 'bg-white text-navy-900 shadow-sm'
+                : 'text-navy-300 hover:text-navy-600'
             }`}
           >
             حساب جديد
@@ -95,15 +92,15 @@ export default function Login() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Email */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">البريد الإلكتروني</label>
+            <label className="block text-sm font-semibold text-navy-900 mb-1.5">البريد الإلكتروني</label>
             <div className="relative">
-              <Mail size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300" />
+              <Mail size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-navy-200" />
               <input
                 type="email"
                 placeholder="you@example.com"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full pr-10 pl-3 py-3 bg-gray-50 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-100 focus:border-emerald-400 placeholder-gray-300 transition-colors"
+                className="w-full pr-10 pl-3 py-3 bg-surface rounded-xl border border-navy-50 text-sm focus:outline-none focus:ring-2 focus:ring-navy-100 focus:border-navy-300 placeholder-navy-200 transition-colors"
                 dir="ltr"
               />
             </div>
@@ -111,21 +108,21 @@ export default function Login() {
 
           {/* Password */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">كلمة المرور</label>
+            <label className="block text-sm font-semibold text-navy-900 mb-1.5">كلمة المرور</label>
             <div className="relative">
-              <Lock size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300" />
+              <Lock size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-navy-200" />
               <input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="••••••••"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className="w-full pr-10 pl-10 py-3 bg-gray-50 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-100 focus:border-emerald-400 placeholder-gray-300 transition-colors"
+                className="w-full pr-10 pl-10 py-3 bg-surface rounded-xl border border-navy-50 text-sm focus:outline-none focus:ring-2 focus:ring-navy-100 focus:border-navy-300 placeholder-navy-200 transition-colors"
                 dir="ltr"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500"
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-navy-200 hover:text-navy-400"
               >
                 {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
@@ -141,7 +138,7 @@ export default function Login() {
 
           {/* Success */}
           {success && (
-            <div className="bg-emerald-50 text-emerald-600 text-xs font-medium px-3 py-2.5 rounded-lg">
+            <div className="bg-teal-50 text-teal-600 text-xs font-medium px-3 py-2.5 rounded-lg">
               {success}
             </div>
           )}
@@ -150,7 +147,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-emerald-500 text-white rounded-xl text-sm font-bold hover:bg-emerald-600 transition-colors disabled:opacity-60 shadow-sm shadow-emerald-200"
+            className="w-full py-3 bg-navy-500 text-white rounded-full text-sm font-bold hover:bg-navy-600 transition-colors disabled:opacity-60 shadow-sm"
           >
             {loading ? 'جارٍ...' : mode === 'login' ? 'دخول' : 'إنشاء حساب'}
           </button>
@@ -158,16 +155,16 @@ export default function Login() {
 
         {/* Divider */}
         <div className="flex items-center gap-3 my-5">
-          <div className="flex-1 h-px bg-gray-200" />
-          <span className="text-xs text-gray-400">أو</span>
-          <div className="flex-1 h-px bg-gray-200" />
+          <div className="flex-1 h-px bg-navy-50" />
+          <span className="text-xs text-navy-200">أو</span>
+          <div className="flex-1 h-px bg-navy-50" />
         </div>
 
         {/* Google */}
         <button
           onClick={handleGoogle}
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors disabled:opacity-60"
+          className="w-full flex items-center justify-center gap-2 py-3 bg-white border border-navy-50 rounded-full text-sm font-medium text-navy-900 hover:bg-surface transition-colors disabled:opacity-60"
         >
           <svg width="18" height="18" viewBox="0 0 24 24">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
@@ -182,7 +179,7 @@ export default function Login() {
       {/* Back link */}
       <button
         onClick={() => navigate('/')}
-        className="mt-6 text-sm text-gray-400 hover:text-gray-600 transition-colors"
+        className="mt-6 text-sm text-navy-300 hover:text-navy-500 transition-colors"
       >
         العودة للرئيسية
       </button>

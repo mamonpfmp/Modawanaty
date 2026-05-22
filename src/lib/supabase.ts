@@ -1,10 +1,17 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Will be configured after user creates Supabase project
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
-const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY || '';
+// Supabase configuration — will be replaced with actual credentials
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'PLACEHOLDER_URL';
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY || 'PLACEHOLDER_KEY';
 
-export const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+const isConfigured = SUPABASE_URL !== 'PLACEHOLDER_URL' && SUPABASE_URL !== '';
+
+export const supabase = createClient(
+  isConfigured ? SUPABASE_URL : 'https://placeholder.supabase.co',
+  isConfigured ? SUPABASE_KEY : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.placeholder'
+);
+
+export const isSupabaseConfigured = isConfigured;
 
 export interface Article {
   id: string;
@@ -31,7 +38,7 @@ export interface Category {
 
 // Fetch all articles
 export async function fetchArticles(): Promise<Article[]> {
-  if (!supabase) return [];
+  if (!isConfigured) return [];
   const { data, error } = await supabase
     .from('articles')
     .select('*')
@@ -42,7 +49,7 @@ export async function fetchArticles(): Promise<Article[]> {
 
 // Create article
 export async function createArticle(article: Partial<Article>): Promise<Article | null> {
-  if (!supabase) return null;
+  if (!isConfigured) return null;
   const { data, error } = await supabase
     .from('articles')
     .insert([article])
@@ -54,7 +61,7 @@ export async function createArticle(article: Partial<Article>): Promise<Article 
 
 // Update article
 export async function updateArticle(id: string, updates: Partial<Article>): Promise<Article | null> {
-  if (!supabase) return null;
+  if (!isConfigured) return null;
   const { data, error } = await supabase
     .from('articles')
     .update({ ...updates, updated_at: new Date().toISOString() })
@@ -67,7 +74,7 @@ export async function updateArticle(id: string, updates: Partial<Article>): Prom
 
 // Delete article
 export async function deleteArticle(id: string): Promise<boolean> {
-  if (!supabase) return false;
+  if (!isConfigured) return false;
   const { error } = await supabase.from('articles').delete().eq('id', id);
   if (error) { console.error('Error deleting article:', error); return false; }
   return true;
@@ -75,7 +82,7 @@ export async function deleteArticle(id: string): Promise<boolean> {
 
 // Fetch categories
 export async function fetchCategories(): Promise<Category[]> {
-  if (!supabase) return [];
+  if (!isConfigured) return [];
   const { data, error } = await supabase
     .from('categories')
     .select('*')

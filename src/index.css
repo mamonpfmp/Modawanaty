@@ -10,6 +10,8 @@
 
 body {
   font-family: 'Tajawal', sans-serif;
+  background-color: #f3f3f1;
+  color: #0d065b;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -17,13 +19,13 @@ body {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #d0cef5;
   border-radius: 3px;
 }
 
@@ -33,7 +35,7 @@ body {
 }
 .card-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  box-shadow: 0 8px 30px rgba(13, 6, 91, 0.06);
 }
 
 /* Sidebar nav item */
@@ -57,4 +59,9 @@ body {
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Teal gradient accent */
+.accent-gradient {
+  background: linear-gradient(135deg, #2e2eff 0%, #00d6d6 100%);
 }

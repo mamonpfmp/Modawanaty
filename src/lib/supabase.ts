@@ -1,17 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Supabase configuration — will be replaced with actual credentials
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'PLACEHOLDER_URL';
-const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY || 'PLACEHOLDER_KEY';
+const SUPABASE_URL = 'https://fdylravbvqiesthfflwi.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkeWxyYXZidnFpZXN0aGZmbHdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NDMyNTUsImV4cCI6MjA5NTAxOTI1NX0.nmu6eHu0Q6ecP2au8Dwk7ROIUJ-lMZ9xZKT0TPYRuOo';
 
-const isConfigured = SUPABASE_URL !== 'PLACEHOLDER_URL' && SUPABASE_URL !== '';
-
-export const supabase = createClient(
-  isConfigured ? SUPABASE_URL : 'https://placeholder.supabase.co',
-  isConfigured ? SUPABASE_KEY : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.placeholder'
-);
-
-export const isSupabaseConfigured = isConfigured;
+export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+export const isSupabaseConfigured = true;
 
 export interface Article {
   id: string;

@@ -10,9 +10,9 @@
 
 body {
   font-family: 'Tajawal', sans-serif;
-  background: #f0f4f8;
-  direction: rtl;
-  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 /* Custom scrollbar */
@@ -26,19 +26,35 @@ body {
   background: #cbd5e1;
   border-radius: 3px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
 
-/* Smooth transitions */
-.sidebar-item {
-  transition: all 0.2s ease;
-}
-
+/* Card hover effect */
 .card-hover {
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .card-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+}
+
+/* Sidebar nav item */
+.sidebar-item {
+  transition: all 0.15s ease;
+}
+
+/* Mobile slide-in animation */
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.animate-slide-in {
+  animation: slideIn 0.25s ease-out;
+}
+
+/* Hide scrollbar on filter row */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

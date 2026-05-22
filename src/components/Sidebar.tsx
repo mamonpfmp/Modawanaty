@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, FileText, FolderOpen, BarChart3, Settings, LogOut, Search, PenLine, X } from 'lucide-react';
+import { useAuth } from '../hooks/useAuth';
 
 const navItems = [
   { path: '/', label: 'لوحة التحكم', icon: LayoutDashboard },
@@ -16,11 +17,23 @@ interface SidebarProps {
 export default function Sidebar({ onClose }: SidebarProps) {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, signOut } = useAuth();
 
   const handleNav = (path: string) => {
     navigate(path);
     onClose();
   };
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/login');
+  };
+
+  // Get user display info
+  const userEmail = user?.email || '';
+  const userName = user?.user_metadata?.full_name || user?.user_metadata?.name || userEmail.split('@')[0] || 'المدوّن';
+  const userAvatar = user?.user_metadata?.avatar_url;
+  const userInitial = userName.charAt(0).toUpperCase();
 
   return (
     <div className="flex flex-col h-full bg-white border-l border-gray-100 shadow-sm">
@@ -28,8 +41,8 @@ export default function Sidebar({ onClose }: SidebarProps) {
       <div className="p-5 border-b border-gray-50">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
-              <PenLine size={20} className="text-blue-600" />
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+              <PenLine size={20} className="text-emerald-600" />
             </div>
             <div>
               <h2 className="text-base font-bold text-gray-800">مدونتي</h2>
@@ -80,14 +93,22 @@ export default function Sidebar({ onClose }: SidebarProps) {
       {/* User profile */}
       <div className="p-4 border-t border-gray-50">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-bold">
-            م
+          {userAvatar ? (
+            <img src={userAvatar} alt="" className="w-10 h-10 rounded-full object-cover" />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white text-sm font-bold">
+              {userInitial}
+            </div>
+          )}
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-gray-700 truncate">{userName}</p>
+            <p className="text-[10px] text-gray-400 truncate" dir="ltr">{userEmail}</p>
           </div>
-          <div className="flex-1">
-            <p className="text-sm font-semibold text-gray-700">المدوّن</p>
-            <p className="text-xs text-gray-400">كاتب ومدوّن</p>
-          </div>
-          <button className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
+          <button
+            onClick={handleSignOut}
+            className="p-2 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors"
+            title="تسجيل خروج"
+          >
             <LogOut size={16} />
           </button>
         </div>

@@ -14,9 +14,9 @@ interface ArticleRowProps {
 }
 
 const statusConfig = {
-  published: { label: 'منشور', color: 'text-green-600 bg-green-50', dot: 'bg-green-500' },
+  published: { label: 'منشور', color: 'text-teal-700 bg-teal-50', dot: 'bg-teal-500' },
   draft: { label: 'مسودة', color: 'text-amber-600 bg-amber-50', dot: 'bg-amber-500' },
-  scheduled: { label: 'مجدول', color: 'text-blue-600 bg-blue-50', dot: 'bg-blue-500' },
+  scheduled: { label: 'مجدول', color: 'text-navy-500 bg-navy-50', dot: 'bg-navy-500' },
 };
 
 function formatDate(dateStr: string | null): string {
@@ -36,12 +36,12 @@ export default function ArticleRow({ id, title, views, date, readTime, category,
   const cfg = statusConfig[status];
 
   return (
-    <div className="bg-gray-50/70 rounded-xl p-3 sm:p-4 hover:bg-gray-50 transition-colors">
+    <div className="bg-surface/70 rounded-xl p-3 sm:p-4 hover:bg-surface transition-colors">
       <div className="flex items-start gap-3">
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-xs sm:text-sm font-bold text-gray-800 mb-1.5 leading-relaxed line-clamp-2">{title}</h3>
-          <div className="flex flex-wrap items-center gap-2 text-[10px] sm:text-xs text-gray-400">
+          <h3 className="text-xs sm:text-sm font-bold text-navy-900 mb-1.5 leading-relaxed line-clamp-2">{title}</h3>
+          <div className="flex flex-wrap items-center gap-2 text-[10px] sm:text-xs text-navy-300">
             <span className="flex items-center gap-0.5">
               <Eye size={11} />
               {formatViews(views)}
@@ -54,7 +54,7 @@ export default function ArticleRow({ id, title, views, date, readTime, category,
               <Clock size={11} />
               {readTime} د
             </span>
-            <span className="bg-white px-1.5 py-0.5 rounded text-gray-500">{category}</span>
+            <span className="bg-white px-1.5 py-0.5 rounded text-navy-400">{category}</span>
           </div>
         </div>
 
@@ -68,17 +68,17 @@ export default function ArticleRow({ id, title, views, date, readTime, category,
         <div className="relative flex-shrink-0">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="p-1.5 rounded-lg hover:bg-white text-gray-400"
+            className="p-1.5 rounded-lg hover:bg-white text-navy-300"
           >
             <MoreVertical size={15} />
           </button>
           {menuOpen && (
             <>
               <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
-              <div className="absolute left-0 top-full mt-1 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-20 min-w-[100px]">
+              <div className="absolute left-0 top-full mt-1 bg-white rounded-xl shadow-lg border border-navy-50/30 py-1 z-20 min-w-[100px]">
                 <button
                   onClick={() => { setMenuOpen(false); navigate(`/articles/${id}/edit`); }}
-                  className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-600 hover:bg-gray-50"
+                  className="w-full flex items-center gap-2 px-3 py-2 text-xs text-navy-700 hover:bg-surface"
                 >
                   <Pencil size={13} />
                   تعديل

@@ -21,7 +21,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 overflow-hidden">
       {/* Welcome section */}
       <div className="glass-card rounded-2xl p-5 sm:p-6 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-40 h-40 bg-navy-500/10 rounded-full blur-3xl" />

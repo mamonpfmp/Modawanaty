@@ -77,11 +77,13 @@ export function useArticles() {
 
   // Stats
   const stats = {
-    totalVisits: articles.reduce((sum, a) => sum + a.views, 0),
-    totalViews: articles.reduce((sum, a) => sum + a.views, 0),
-    publishedCount: articles.filter(a => a.status === 'published').length,
+    totalArticles: articles.length,
+    publishedArticles: articles.filter(a => a.status === 'published').length,
     draftCount: articles.filter(a => a.status === 'draft').length,
     scheduledCount: articles.filter(a => a.status === 'scheduled').length,
+    totalVisits: articles.reduce((sum, a) => sum + a.views, 0),
+    totalViews: articles.reduce((sum, a) => sum + a.views, 0),
+    totalCategories: new Set(articles.map(a => a.category)).size,
   };
 
   return { articles, categories, loading, stats, addArticle, editArticle, removeArticle, reload: loadArticles };

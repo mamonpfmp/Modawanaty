@@ -45,7 +45,7 @@ export default function Login() {
       <div className="w-full max-w-md relative z-10">
         {/* Logo */}
         <div className="text-center mb-8">
-          <img src="/logo.png" alt="Modawnty" className="h-12 mx-auto" />
+          <img src="/logo.png" alt="Modawnty" className="h-20 mx-auto" />
         </div>
 
         {/* Card */}

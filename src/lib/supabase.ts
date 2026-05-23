@@ -5,6 +5,7 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 export const isSupabaseConfigured = true;
+const isConfigured = isSupabaseConfigured;
 
 export interface Article {
   id: string;
@@ -82,4 +83,24 @@ export async function fetchCategories(): Promise<Category[]> {
     .order('name');
   if (error) { console.error('Error fetching categories:', error); return []; }
   return data || [];
+}
+
+// Upload image to Supabase Storage
+export async function uploadImage(file: File): Promise<string | null> {
+  if (!isConfigured) return null;
+  const ext = file.name.split('.').pop();
+  const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${ext}`;
+  const filePath = `articles/${fileName}`;
+
+  const { error } = await supabase.storage
+    .from('images')
+    .upload(filePath, file, { cacheControl: '3600', upsert: false });
+
+  if (error) {
+    console.error('Error uploading image:', error);
+    return null;
+  }
+
+  const { data } = supabase.storage.from('images').getPublicUrl(filePath);
+  return data.publicUrl;
 }

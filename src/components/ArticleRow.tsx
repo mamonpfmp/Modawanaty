@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Eye, Clock, MoreVertical, Calendar } from 'lucide-react';
+import { Eye, Clock, Calendar } from 'lucide-react';
 import type { Article } from '../data/articles';
 
 // Card-style article (modonty look)
@@ -23,13 +23,22 @@ export default function ArticleCard({ article }: { article: Article }) {
     'from-navy-500/30 to-purple-600/20',
   ];
   const gradientIdx = article.title.length % gradients.length;
+  const hasCover = !!article.cover_image;
 
   return (
-    <Link to={`/articles/${article.id}`} className="block">
+    <Link to={`/articles/${article.id}/edit`} className="block">
       <div className="glass-card rounded-2xl overflow-hidden card-hover group">
         {/* Image area */}
-        <div className={`h-40 sm:h-48 bg-gradient-to-br ${gradients[gradientIdx]} relative`}>
-          <div className="absolute inset-0 bg-navy-900/20" />
+        <div className={`h-40 sm:h-48 relative ${!hasCover ? `bg-gradient-to-br ${gradients[gradientIdx]}` : ''}`}>
+          {hasCover ? (
+            <img
+              src={article.cover_image}
+              alt={article.title}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-navy-900/20" />
+          )}
           <div className="absolute top-3 right-3">
             <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${statusColors[article.status]}`}>
               {statusLabels[article.status]}
@@ -81,7 +90,7 @@ export default function ArticleCard({ article }: { article: Article }) {
               {article.views >= 1000 ? `${(article.views / 1000).toFixed(1)}K` : article.views}
             </div>
             <span className="text-[11px] font-semibold text-navy-500 group-hover:text-teal-500 transition-colors">
-              اقرأ المزيد ←
+              تعديل ←
             </span>
           </div>
         </div>

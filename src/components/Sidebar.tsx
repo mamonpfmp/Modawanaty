@@ -21,7 +21,7 @@ export default function Sidebar() {
     <aside className="fixed right-0 top-0 h-full w-64 bg-navy-950 border-l border-navy-50 flex flex-col z-40">
       {/* Logo */}
       <div className="p-5 flex items-center justify-center">
-        <img src="/logo.png" alt="Modawnty" className="h-10 object-contain" />
+        <img src="/logo.png" alt="Modawnty" className="h-16 object-contain" />
       </div>
 
       <div className="h-px bg-navy-50 mx-4" />

@@ -28,7 +28,7 @@ export default function Dashboard() {
         <div className="absolute bottom-0 right-0 w-32 h-32 bg-teal-500/10 rounded-full blur-3xl" />
         <div className="relative">
           <div className="flex items-center gap-3 mb-1">
-            <img src="/logo.png" alt="Modawnty" className="h-8 object-contain lg:hidden" />
+            <img src="/logo.png" alt="Modawnty" className="h-12 object-contain lg:hidden" />
           </div>
           <h1 className="text-xl sm:text-2xl font-extrabold text-white">
             {greeting()} 👋

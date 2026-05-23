@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowRight, Save, Eye, Calendar } from 'lucide-react';
+import { ArrowRight, Save, Eye, Calendar, ImagePlus, X, Upload } from 'lucide-react';
 import { useArticles } from '../hooks/useArticles';
+import { uploadImage } from '../lib/supabase';
 
 export default function ArticleEditor() {
   const { id } = useParams();
@@ -13,7 +14,11 @@ export default function ArticleEditor() {
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
   const [status, setStatus] = useState<'draft' | 'published' | 'scheduled'>('draft');
+  const [coverImage, setCoverImage] = useState('');
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [dragActive, setDragActive] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isEditing) {
@@ -23,9 +28,55 @@ export default function ArticleEditor() {
         setContent(article.content);
         setCategory(article.category);
         setStatus(article.status);
+        setCoverImage(article.cover_image || '');
       }
     }
   }, [id, articles, isEditing]);
+
+  const handleImageUpload = async (file: File) => {
+    if (!file.type.startsWith('image/')) return;
+    if (file.size > 5 * 1024 * 1024) {
+      alert('حجم الصورة يجب أن يكون أقل من 5 ميجابايت');
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const url = await uploadImage(file);
+      if (url) {
+        setCoverImage(url);
+      } else {
+        // Fallback: use local URL preview if Supabase storage isn't set up
+        const localUrl = URL.createObjectURL(file);
+        setCoverImage(localUrl);
+      }
+    } catch (err) {
+      console.error('Upload error:', err);
+      // Fallback to local preview
+      const localUrl = URL.createObjectURL(file);
+      setCoverImage(localUrl);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) handleImageUpload(file);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragActive(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) handleImageUpload(file);
+  };
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    if (e.type === 'dragenter' || e.type === 'dragover') setDragActive(true);
+    else if (e.type === 'dragleave') setDragActive(false);
+  };
 
   const handleSave = async () => {
     if (!title.trim()) return;
@@ -38,6 +89,7 @@ export default function ArticleEditor() {
         category: category || 'عام',
         status,
         read_time: readTime,
+        cover_image: coverImage,
         published_at: status === 'published' ? new Date().toISOString() : null,
       };
       if (isEditing) await editArticle(id!, data);
@@ -71,6 +123,73 @@ export default function ArticleEditor() {
           <Save size={14} />
           {saving ? 'جارٍ...' : 'حفظ'}
         </button>
+      </div>
+
+      {/* Cover Image Upload */}
+      <div>
+        <label className="block text-sm font-semibold text-white mb-2">صورة الغلاف</label>
+        {coverImage ? (
+          <div className="relative rounded-2xl overflow-hidden group">
+            <img
+              src={coverImage}
+              alt="غلاف المقال"
+              className="w-full h-48 sm:h-64 object-cover"
+            />
+            <div className="absolute inset-0 bg-navy-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="flex items-center gap-2 px-4 py-2 bg-navy-800/90 rounded-xl text-sm text-white hover:bg-navy-700 transition-colors"
+              >
+                <Upload size={16} />
+                تغيير
+              </button>
+              <button
+                onClick={() => setCoverImage('')}
+                className="flex items-center gap-2 px-4 py-2 bg-red-500/20 rounded-xl text-sm text-red-400 hover:bg-red-500/30 transition-colors"
+              >
+                <X size={16} />
+                حذف
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div
+            onClick={() => fileInputRef.current?.click()}
+            onDrop={handleDrop}
+            onDragEnter={handleDrag}
+            onDragOver={handleDrag}
+            onDragLeave={handleDrag}
+            className={`flex flex-col items-center justify-center gap-3 h-48 sm:h-56 glass-card rounded-2xl border-2 border-dashed cursor-pointer transition-all ${
+              dragActive
+                ? 'border-teal-500 bg-teal-500/5'
+                : 'border-navy-50 hover:border-navy-500/40 hover:bg-navy-800/30'
+            }`}
+          >
+            {uploading ? (
+              <>
+                <div className="w-10 h-10 border-3 border-teal-200 border-t-teal-500 rounded-full animate-spin" />
+                <p className="text-sm text-navy-300">جارٍ رفع الصورة...</p>
+              </>
+            ) : (
+              <>
+                <div className="w-14 h-14 rounded-2xl bg-navy-500/10 flex items-center justify-center">
+                  <ImagePlus size={24} className="text-navy-500" />
+                </div>
+                <div className="text-center">
+                  <p className="text-sm font-semibold text-navy-300">اضغط لرفع صورة أو اسحبها هنا</p>
+                  <p className="text-[10px] text-navy-200 mt-1">PNG, JPG, WEBP — حد أقصى 5 ميجابايت</p>
+                </div>
+              </>
+            )}
+          </div>
+        )}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          className="hidden"
+        />
       </div>
 
       {/* Title */}

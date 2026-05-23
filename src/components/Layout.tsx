@@ -15,15 +15,15 @@ export default function Layout() {
   const { pathname } = useLocation();
 
   return (
-    <div className="flex min-h-screen bg-navy-900">
+    <div className="flex min-h-screen bg-navy-900 overflow-x-hidden">
       {/* Desktop sidebar */}
       <div className="hidden lg:block">
         <Sidebar />
       </div>
 
       {/* Main content */}
-      <main className="flex-1 lg:mr-64 pb-safe lg:pb-0">
-        <div className="p-4 sm:p-6 lg:p-8 max-w-5xl">
+      <main className="flex-1 min-w-0 lg:mr-64 pb-safe lg:pb-0">
+        <div className="p-4 sm:p-6 lg:p-8 max-w-5xl w-full">
           <Outlet />
         </div>
       </main>

@@ -52,41 +52,41 @@ export default function ArticleCard({ article }: { article: Article }) {
         </div>
 
         {/* Content */}
-        <div className="p-4">
+        <div className="p-4 overflow-hidden">
           {/* Author row */}
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-6 h-6 rounded-full accent-gradient flex items-center justify-center text-white text-[9px] font-bold">
+          <div className="flex items-center gap-1.5 sm:gap-2 mb-2 flex-wrap">
+            <div className="w-6 h-6 shrink-0 rounded-full accent-gradient flex items-center justify-center text-white text-[9px] font-bold">
               م
             </div>
             <span className="text-[11px] text-navy-300">المدوّن</span>
             <span className="text-navy-200 text-[10px]">·</span>
             <div className="flex items-center gap-1 text-[10px] text-navy-200">
-              <Calendar size={10} />
-              {article.published_at
+              <Calendar size={10} className="shrink-0" />
+              <span className="truncate">{article.published_at
                 ? new Date(article.published_at).toLocaleDateString('ar-SA', { month: 'short', day: 'numeric' })
                 : 'غير منشور'
-              }
+              }</span>
             </div>
             <div className="flex items-center gap-1 text-[10px] text-navy-200">
-              <Clock size={10} />
+              <Clock size={10} className="shrink-0" />
               {article.read_time} د
             </div>
           </div>
 
           {/* Title */}
-          <h3 className="text-sm font-bold text-white group-hover:text-teal-400 transition-colors line-clamp-2 mb-1.5">
+          <h3 className="text-sm font-bold text-white group-hover:text-teal-400 transition-colors line-clamp-2 mb-1.5 break-words">
             {article.title}
           </h3>
 
           {/* Excerpt */}
-          <p className="text-xs text-navy-300 line-clamp-2 leading-relaxed mb-3">
+          <p className="text-xs text-navy-300 line-clamp-2 leading-relaxed mb-3 break-words">
             {article.excerpt}
           </p>
 
           {/* Footer */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1 text-[10px] text-navy-200">
-              <Eye size={12} />
+              <Eye size={12} className="shrink-0" />
               {article.views >= 1000 ? `${(article.views / 1000).toFixed(1)}K` : article.views}
             </div>
             <span className="text-[11px] font-semibold text-navy-500 group-hover:text-teal-500 transition-colors">

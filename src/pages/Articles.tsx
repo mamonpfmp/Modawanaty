@@ -19,16 +19,16 @@ export default function Articles() {
   });
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
           <h1 className="text-xl sm:text-2xl font-extrabold text-white">المقالات</h1>
           <p className="text-xs text-navy-300 mt-0.5">{articles.length} مقال</p>
         </div>
         <button
           onClick={() => navigate('/articles/new')}
-          className="flex items-center gap-2 px-4 py-2.5 accent-gradient text-white rounded-xl text-sm font-bold hover:opacity-90 transition-opacity"
+          className="flex items-center gap-2 px-4 py-2.5 accent-gradient text-white rounded-xl text-sm font-bold hover:opacity-90 transition-opacity shrink-0"
         >
           <Plus size={16} />
           <span className="hidden sm:inline">مقال جديد</span>
@@ -48,12 +48,12 @@ export default function Articles() {
       </div>
 
       {/* Category pills */}
-      <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+      <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4" style={{ scrollbarWidth: 'none' }}>
         {allCats.map(cat => (
           <button
             key={cat}
             onClick={() => setFilter(cat)}
-            className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
+            className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 ${
               filter === cat
                 ? 'accent-gradient text-white'
                 : 'glass-card text-navy-300 hover:text-white hover:border-navy-500/30'
